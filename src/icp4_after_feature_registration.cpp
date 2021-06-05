@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <pcl/common/time.h>
 #include <pcl/io/ply_io.h>
 #include <pcl/io/vtk_lib_io.h>
 #include <pcl/point_types.h>
@@ -114,7 +115,7 @@ int main (int argc, char** argv)
     
     { // Harris detector with normal
       std::cout << "detection" << std::endl;
-      
+      pcl::ScopeTime scope_time("Harris Run Time: ");      
       pcl::HarrisKeypoint3D<pcl::PointXYZRGBNormal,pcl::PointXYZI>::Ptr detector ( new pcl::HarrisKeypoint3D<pcl::PointXYZRGBNormal,pcl::PointXYZI> () );
       detector->setNonMaxSupression ( true );
       detector->setRadius ( radius );
@@ -151,6 +152,7 @@ int main (int argc, char** argv)
     pcl::PointCloud<descriptorType>::Ptr target_features ( new pcl::PointCloud<descriptorType> () );
     
     { // descriptor
+      pcl::ScopeTime scope_time("Descriptor Run Time: ");      
       std::cout << "description" << std::endl;
 #ifdef useFPFH
       pcl::Feature<pcl::PointXYZ, descriptorType>::Ptr descriptor ( new pcl::FPFHEstimationOMP<pcl::PointXYZ, pcl::Normal, descriptorType> () ); 
@@ -180,6 +182,7 @@ int main (int argc, char** argv)
 
     { // Find matching with Kd-tree
       std::cout << "matching" << std::endl;
+      pcl::ScopeTime scope_time("KD-tree Run Time: ");      
 
       correspondences.resize ( source_features->size() );
       
@@ -213,6 +216,7 @@ int main (int argc, char** argv)
 
     { // Refining matching by filtering out wrong correspondence
       std::cout << "refineing matching" << std::endl;
+      pcl::ScopeTime scope_time("Refined KD-tree Run Time: ");      
       
       int nCorrespondence = 0;
       for (int i = 0; i < correspondences.size(); i++)
@@ -247,6 +251,7 @@ int main (int argc, char** argv)
     
     { // Estimating rigid transformation
       std::cout << "Estimating transformation" << std::endl;
+      pcl::ScopeTime scope_time("Transformation Run Time: ");      
 
       pcl::registration::TransformationEstimationSVD< pcl::PointXYZ, pcl::PointXYZ > est;
       
