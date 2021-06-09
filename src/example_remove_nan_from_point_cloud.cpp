@@ -40,7 +40,6 @@
 #include <iostream>
 
 #include <pcl/filters/filter.h>
-#include <pcl/types.h>
 #include <pcl/point_types.h>
 #include <pcl/filters/filter_indices.h>
 
@@ -64,7 +63,8 @@ main (int, char**)
 
   std::cout << "size: " << cloud->size () << std::endl;
 
-  pcl::Indices indices;
+  //pcl::Indices indices;
+  std::vector<int> indices;
   pcl::removeNaNFromPointCloud(*cloud, *output_cloud, indices);
   std::cout << "size: " << output_cloud->size () << std::endl;
 
