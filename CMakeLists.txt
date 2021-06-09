@@ -18,6 +18,12 @@ target_link_libraries (icp2_iterative_view ${PCL_LIBRARIES})
 add_executable (example_scope_time src/example_scope_time.cpp)
 target_link_libraries (example_scope_time ${PCL_LIBRARIES})
 
+add_executable (example_extract_indices src/example_extract_indices.cpp)
+target_link_libraries (example_extract_indices ${PCL_LIBRARIES})
+
+add_executable (example_remove_nan_from_point_cloud src/example_remove_nan_from_point_cloud.cpp)
+target_link_libraries (example_remove_nan_from_point_cloud ${PCL_LIBRARIES})
+
 add_executable (icp3_with_normal_iterative_view src/icp3_with_normal_iterative_view.cpp)
 target_link_libraries (icp3_with_normal_iterative_view ${PCL_LIBRARIES})
 
