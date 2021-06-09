@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include <algorithm>
 #include <pcl/common/time.h>
 #include <pcl/io/ply_io.h>
