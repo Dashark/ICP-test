@@ -196,9 +196,9 @@ int main (int argc, char** argv)
 	correspondences[i] = -1; // -1 means no correspondence
 	
 	#ifdef useFPFH
-	if ( isnan ( source_features->points[i].histogram[0] ) ) continue;
+	if ( std::isnan ( source_features->points[i].histogram[0] ) ) continue;
 	#else
-	if ( isnan ( source_features->points[i].descriptor[0] ) ) continue;
+	if ( std::isnan ( source_features->points[i].descriptor[0] ) ) continue;
 	#endif
 	
 	search_tree.nearestKSearch ( *source_features, i, 1, index, L2_distance );
