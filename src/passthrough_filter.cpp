@@ -63,8 +63,8 @@ int main (int argc, char** argv)
    // Create the filtering object
   pcl::PassThrough<pcl::PointXYZ> pass;
   pass.setInputCloud (cloud_source);
-  pass.setFilterFieldName ("x");
-  pass.setFilterLimits (atof(argv[3]), atof(argv[4]));
+  pass.setFilterFieldName (argv[3]);
+  pass.setFilterLimits (atof(argv[4]), atof(argv[5]));
   //pass.setFilterLimitsNegative (true);
   pass.filter (*cloud_target); 
   
