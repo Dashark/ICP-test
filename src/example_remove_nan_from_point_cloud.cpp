@@ -37,16 +37,19 @@
  *
  */
 
+// STL
 #include <iostream>
+#include <limits>
 
-#include <pcl/filters/filter.h>
+// PCL
+#include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
-#include <pcl/filters/filter_indices.h>
+#include <pcl/filters/filter.h>
 
 int
 main (int, char**)
 {
-  using CloudType = pcl::PointCloud<pcl::PointXYZ>;
+  typedef pcl::PointCloud<pcl::PointXYZ> CloudType;
   CloudType::Ptr cloud (new CloudType);
   cloud->is_dense = false;
   CloudType::Ptr output_cloud (new CloudType);
@@ -61,12 +64,11 @@ main (int, char**)
   p_valid.x = 1.0f;
   cloud->push_back(p_valid);
 
-  std::cout << "size: " << cloud->size () << std::endl;
+  std::cout << "size: " << cloud->points.size () << std::endl;
 
-  //pcl::Indices indices;
   std::vector<int> indices;
   pcl::removeNaNFromPointCloud(*cloud, *output_cloud, indices);
-  std::cout << "size: " << output_cloud->size () << std::endl;
+  std::cout << "size: " << output_cloud->points.size () << std::endl;
 
   return 0;
 }
