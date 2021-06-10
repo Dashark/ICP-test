@@ -54,6 +54,10 @@ int main (int argc, char** argv)
     loadFile ( argv[1], *cloud_source );
     // load target
     // loadFile ( argv[2], *cloud_target );
+    std::cout << "Loaded "
+            << cloud_source->width << " x " << cloud_source->height
+            << " data points from test_pcd.pcd with the following fields: "
+            << std::endl;
   }
   
    // Create the filtering object
@@ -64,9 +68,9 @@ int main (int argc, char** argv)
   //pass.setFilterLimitsNegative (true);
   pass.filter (*cloud_target); 
   
-  std::cerr << "Origin " << cloud_source.size () << " data points to test_pcd.pcd." << std::endl;
-  pcl::io::savePCDFileASCII (argv[2], cloud_target);
-  std::cerr << "Saved " << cloud_target.size () << " data points to test_pcd.pcd." << std::endl;
+  std::cerr << "Origin " << cloud_source->size () << " data points to " << argv[1] << std::endl;
+  pcl::io::savePCDFileASCII (argv[2], *cloud_target);
+  std::cerr << "Saved " << cloud_target->size () << " data points to " << argv[2] << std::endl;
   
   return(0);
 }
