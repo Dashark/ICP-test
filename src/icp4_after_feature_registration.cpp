@@ -67,12 +67,17 @@ int main (int argc, char** argv)
   
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_source ( new pcl::PointCloud<pcl::PointXYZ> () );
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_target ( new pcl::PointCloud<pcl::PointXYZ> () );
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_prev ( new pcl::PointCloud<pcl::PointXYZ> () );
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_next ( new pcl::PointCloud<pcl::PointXYZ> () );
   
   {
     // load source
     loadFile ( argv[1], *cloud_source );
     // load target
     loadFile ( argv[2], *cloud_target );
+
+    loadFile ( argv[3], *cloud_prev );
+    loadFile ( argv[4], *cloud_next );
   }
   
   
@@ -314,11 +319,15 @@ int main (int argc, char** argv)
       Eigen::Matrix4f transformation;
       if ( icp.hasConverged() )
       {
-	pcl::transformPointCloud ( *cloud_source_trans, *cloud_source_trans, icp.getFinalTransformation() );
-	viewer->updatePointCloud ( cloud_source_trans, source_trans_color, "source trans" );
+        pcl::transformPointCloud ( *cloud_next, *cloud_next, icp.getFinalTransformation() );
+        *cloud_prev += *cloud_next;
+        pcl::io::savePCDFileASCII (argv[5], *cloud_prev);
+
+        pcl::transformPointCloud ( *cloud_source_trans, *cloud_source_trans, icp.getFinalTransformation() );
+        viewer->updatePointCloud ( cloud_source_trans, source_trans_color, "source trans" );
       }
       else
-	std::cout << "Not converged." << std::endl;
+        std::cout << "Not converged." << std::endl;
       
       viewer->spin ();
     }
