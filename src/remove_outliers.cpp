@@ -27,7 +27,7 @@ int
     pcl::RadiusOutlierRemoval<pcl::PointXYZ> outrem;
     // build the filter
     outrem.setInputCloud(cloud);
-    outrem.setRadiusSearch(atof(argv[4]);
+    outrem.setRadiusSearch(atof(argv[4]));
     outrem.setMinNeighborsInRadius (atoi(argv[5]));
     outrem.setKeepOrganized(true);
     // apply filter
