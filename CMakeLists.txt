@@ -39,4 +39,11 @@ target_link_libraries (transform_estimation ${PCL_LIBRARIES})
 add_executable (passthrough_filter src/passthrough_filter.cpp)
 target_link_libraries (passthrough_filter ${PCL_LIBRARIES})
 
+add_executable (voxel_grid src/voxel_grid.cpp)
+target_link_libraries (voxel_grid ${PCL_LIBRARIES})
 
+add_executable (statistical_removal src/statistical_removal.cpp)
+target_link_libraries (statistical_removal ${PCL_LIBRARIES})
+
+add_executable (remove_outliers src/remove_outliers.cpp)
+target_link_libraries (remove_outliers ${PCL_LIBRARIES})
