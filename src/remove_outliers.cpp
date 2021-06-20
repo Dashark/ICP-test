@@ -15,23 +15,19 @@ int
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered (new pcl::PointCloud<pcl::PointXYZ>);
 
   // Fill in the cloud data
-  cloud->width  = 5;
-  cloud->height = 1;
-  cloud->resize (cloud->width * cloud->height);
+  pcl::PCDReader reader;
+  // Replace the path below with the path where you saved your file
+  reader.read<pcl::PointXYZ> (argv[2], *cloud);
 
-  for (auto& point: *cloud)
-  {
-    point.x = 1024 * rand () / (RAND_MAX + 1.0f);
-    point.y = 1024 * rand () / (RAND_MAX + 1.0f);
-    point.z = 1024 * rand () / (RAND_MAX + 1.0f);
-  }
+  std::cerr << "Cloud before filtering: ";
+  std::cerr << *cloud << std::endl;
 
   if (strcmp(argv[1], "-r") == 0){
     pcl::RadiusOutlierRemoval<pcl::PointXYZ> outrem;
     // build the filter
     outrem.setInputCloud(cloud);
-    outrem.setRadiusSearch(0.8);
-    outrem.setMinNeighborsInRadius (2);
+    outrem.setRadiusSearch(atof(argv[4]);
+    outrem.setMinNeighborsInRadius (atoi(argv[5]));
     outrem.setKeepOrganized(true);
     // apply filter
     outrem.filter (*cloud_filtered);
@@ -56,16 +52,10 @@ int
     std::cerr << "please specify command line arg '-r' or '-c'" << std::endl;
     exit(0);
   }
-  std::cerr << "Cloud before filtering: " << std::endl;
-  for (const auto& point: *cloud)
-    std::cerr << "    " << point.x << " "
-                        << point.y << " "
-                        << point.z << std::endl;
   // display pointcloud after filtering
-  std::cerr << "Cloud after filtering: " << std::endl;
-  for (const auto& point: *cloud_filtered)
-    std::cerr << "    " << point.x << " "
-                        << point.y << " "
-                        << point.z << std::endl;
+  std::cerr << "Cloud after filtering: ";
+  std::cerr << *cloud_filtered << std::endl;
+  pcl::PCDWriter writer;
+  writer.write<pcl::PointXYZ> (argv[3], *cloud_filtered, false);
   return (0);
 }
