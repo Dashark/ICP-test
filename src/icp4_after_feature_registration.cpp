@@ -118,7 +118,7 @@ int main (int argc, char** argv)
     pcl::PointCloud<pcl::PointXYZ>::Ptr target_keypointsXYZ ( new pcl::PointCloud<pcl::PointXYZ> () );
     
     
-    { // Harris detector with normal
+    { // Harris detector with normal 源点云和目标点云都使用相同方法
       std::cout << "detection" << std::endl;
       pcl::ScopeTime scope_time("Harris Run Time: ");      
       pcl::HarrisKeypoint3D<pcl::PointXYZRGBNormal,pcl::PointXYZI>::Ptr detector ( new pcl::HarrisKeypoint3D<pcl::PointXYZRGBNormal,pcl::PointXYZI> () );
@@ -138,6 +138,7 @@ int main (int argc, char** argv)
       detector->setSearchSurface ( cloud_target_normals );
       detector->compute ( *target_keypoints );
       cout << "number of target keypoints found: " << target_keypoints->points.size() << endl;
+      // 保证2个特征数据一致
       source_keypointsXYZ->points.resize( target_keypoints->points.size() );
       pcl::copyPointCloud( *target_keypoints, *target_keypointsXYZ );
       
@@ -225,18 +226,15 @@ int main (int argc, char** argv)
       
       int nCorrespondence = 0;
       for (int i = 0; i < correspondences.size(); i++)
-	if ( correspondences[i] >= 0 ) nCorrespondence++; // do not count "-1" in correspondences
+        if ( correspondences[i] >= 0 ) nCorrespondence++; // do not count "-1" in correspondences
 
       pCorrespondences->resize ( nCorrespondence );
-      for (int i = 0, j = 0; i < correspondences.size(); i++)
-      {
-	if ( correspondences[i] > 0 )
-	{
-	  (*pCorrespondences)[j].index_query = i;
-	  (*pCorrespondences)[j].index_match = correspondences[i];
-	  j++;
-	  
-	}
+      for (int i = 0, j = 0; i < correspondences.size(); i++) {
+        if ( correspondences[i] > 0 ) {
+          (*pCorrespondences)[j].index_query = i;
+          (*pCorrespondences)[j].index_match = correspondences[i];
+          j++;
+        }
       }
 
       pcl::registration::CorrespondenceRejectorSampleConsensus<pcl::PointXYZ> refine;
