@@ -104,7 +104,7 @@ int main (int argc, char** argv)
   {
     Eigen::Vector4f max_pt, min_pt;
     pcl::getMinMax3D ( *cloud_source, min_pt, max_pt );
-    radius = (max_pt - min_pt).norm() / 50; // fixed radius (scale) for detector/descriptor
+    radius = (max_pt - min_pt).norm() / atoi(argv[6]); // fixed radius (scale) for detector/descriptor
     std::cout << "scale: " << radius << std::endl;
   }
   
