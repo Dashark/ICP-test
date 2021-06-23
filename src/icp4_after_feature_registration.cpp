@@ -317,9 +317,18 @@ int main (int argc, char** argv)
       Eigen::Matrix4f transformation;
       if ( icp.hasConverged() )
       {
+        pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_prev_rgb ( new pcl::PointCloud<pcl::PointXYZRGB> () );
+        pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_next_rgb ( new pcl::PointCloud<pcl::PointXYZRGB> () );
+        pcl::copyPointCloud(*cloud_prev, *cloud_prev_rgb);
+        std::uint8_t r = 255, g = 0, b = 0;
+        std::uint32_t rgb = ((std::uint32_t)r << 16 | (std::uint32_t)g << 8 | (std::uint32_t)b);
+        for (size_t i = 0; i < cloud_prev_rgb->size(); ++i) {
+          (*cloud_prev_rgb)[i].rgb = *reinterpret_cast<float*>(&rgb);
+        }
         pcl::transformPointCloud ( *cloud_next, *cloud_next, icp.getFinalTransformation() );
-        *cloud_prev += *cloud_next;
-        pcl::io::savePCDFileASCII (argv[5], *cloud_prev);
+        pcl::copyPointCloud(*cloud_next, *cloud_next_rgb);
+        *cloud_prev_rgb += *cloud_next_rgb;
+        pcl::io::savePCDFileASCII (argv[5], *cloud_prev_rgb);
 
         pcl::transformPointCloud ( *cloud_source_trans, *cloud_source_trans, icp.getFinalTransformation() );
         viewer->updatePointCloud ( cloud_source_trans, source_trans_color, "source trans" );
