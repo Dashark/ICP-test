@@ -327,6 +327,11 @@ int main (int argc, char** argv)
         }
         pcl::transformPointCloud ( *cloud_next, *cloud_next, icp.getFinalTransformation() );
         pcl::copyPointCloud(*cloud_next, *cloud_next_rgb);
+        r = 0; g = 255; b = 0;
+        rgb = ((std::uint32_t)r << 16 | (std::uint32_t)g << 8 | (std::uint32_t)b);
+        for (size_t i = 0; i < cloud_next_rgb->size(); ++i) {
+          (*cloud_prev_rgb)[i].rgb = *reinterpret_cast<float*>(&rgb);
+        }
         *cloud_prev_rgb += *cloud_next_rgb;
         pcl::io::savePCDFileASCII (argv[5], *cloud_prev_rgb);
 
