@@ -268,6 +268,7 @@ int main (int argc, char** argv)
 					transformation );
       std::cout << transformation << std::endl;
       
+      // 第一次变换
       pcl::transformPointCloud ( *cloud_next, *cloud_next_trans, transformation );
       pcl::transformPointCloud ( *cloud_source, *cloud_source_trans, transformation );
       pcl::transformPointCloud ( *cloud_source_normals, *cloud_source_trans_normals, transformation );
@@ -319,6 +320,7 @@ int main (int argc, char** argv)
       Eigen::Matrix4f transformation;
       if ( icp.hasConverged() )
       {
+        // 添加颜色的使用
         pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_prev_rgb ( new pcl::PointCloud<pcl::PointXYZRGB> () );
         pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_next_rgb ( new pcl::PointCloud<pcl::PointXYZRGB> () );
         pcl::copyPointCloud(*cloud_prev, *cloud_prev_rgb);
@@ -327,7 +329,10 @@ int main (int argc, char** argv)
         for (size_t i = 0; i < cloud_prev_rgb->size(); ++i) {
           cloud_prev_rgb->points[i].rgb = *reinterpret_cast<float*>(&rgb);
         }
+        // 第二次ICP矩阵转换
         pcl::transformPointCloud ( *cloud_next_trans, *cloud_next_trans, icp.getFinalTransformation() );
+        std::cout << "transformation with ICP : " << std::endl;
+        std::cout << icp.getFinalTransformation() << std::endl;
         pcl::copyPointCloud(*cloud_next_trans, *cloud_next_rgb);
         r = 0; g = 255; b = 0;
         rgb = ((std::uint32_t)r << 16 | (std::uint32_t)g << 8 | (std::uint32_t)b);
