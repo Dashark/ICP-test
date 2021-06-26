@@ -81,6 +81,7 @@ int main (int argc, char** argv)
   }
   
   
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_next_trans ( new pcl::PointCloud<pcl::PointXYZ> () );
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_source_trans ( new pcl::PointCloud<pcl::PointXYZ> () );
 
   // prepare could with normals
@@ -267,6 +268,7 @@ int main (int argc, char** argv)
 					transformation );
       std::cout << transformation << std::endl;
       
+      pcl::transformPointCloud ( *cloud_next, *cloud_next_trans, transformation );
       pcl::transformPointCloud ( *cloud_source, *cloud_source_trans, transformation );
       pcl::transformPointCloud ( *cloud_source_normals, *cloud_source_trans_normals, transformation );
       
@@ -325,8 +327,8 @@ int main (int argc, char** argv)
         for (size_t i = 0; i < cloud_prev_rgb->size(); ++i) {
           (*cloud_prev_rgb)[i].rgb = *reinterpret_cast<float*>(&rgb);
         }
-        pcl::transformPointCloud ( *cloud_next, *cloud_next, icp.getFinalTransformation() );
-        pcl::copyPointCloud(*cloud_next, *cloud_next_rgb);
+        pcl::transformPointCloud ( *cloud_next_trans, *cloud_next_trans, icp.getFinalTransformation() );
+        pcl::copyPointCloud(*cloud_next_trans, *cloud_next_rgb);
         r = 0; g = 255; b = 0;
         rgb = ((std::uint32_t)r << 16 | (std::uint32_t)g << 8 | (std::uint32_t)b);
         for (size_t i = 0; i < cloud_next_rgb->size(); ++i) {
