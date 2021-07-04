@@ -134,6 +134,12 @@ int main (int argc, char** argv)
       cout << "number of source keypoints found: " << source_keypoints->points.size() << endl;
       source_keypointsXYZ->points.resize( source_keypoints->points.size() );
       pcl::copyPointCloud( *source_keypoints, *source_keypointsXYZ );
+      pcl::PointIndicesConstPtr keypoints_indices = detector->getKeypointsIndices ();
+      if (!keypoints_indices->indices.empty ())
+      {
+        pcl::io::savePCDFile ("keypoints_source.pcd", *cloud_source_normals, keypoints_indices->indices, true);
+        pcl::console::print_info ("Saved keypoints to keypoints_source.pcd\n");
+      }
       
       detector->setInputCloud ( cloud_target_normals );
       detector->setSearchSurface ( cloud_target_normals );
@@ -142,6 +148,12 @@ int main (int argc, char** argv)
       // 保证2个特征数据一致
       source_keypointsXYZ->points.resize( target_keypoints->points.size() );
       pcl::copyPointCloud( *target_keypoints, *target_keypointsXYZ );
+      keypoints_indices = detector->getKeypointsIndices ();
+      if (!keypoints_indices->indices.empty ())
+      {
+        pcl::io::savePCDFile ("keypoints_target.pcd", *cloud_target_normals, keypoints_indices->indices, true);
+        pcl::console::print_info ("Saved keypoints to keypoints_target.pcd\n");
+      }
       
     }
     
