@@ -29,13 +29,10 @@ static Eigen::Matrix4f transformation_est; /* {
  * @param size 数组大小，缺省16
  */
 void tranformMatrix(float matrix[], int size = 16) {
-  for (int i = 0; i < size; i += 4) {
+  for (int i = 0; i < size; ++i) {
     int row = i / 4;
     int col = i % 4;
     transformation_est(row, col) = matrix[i];
-    transformation_est(row, col) = matrix[i+1];
-    transformation_est(row, col) = matrix[i+2];
-    transformation_est(row, col) = matrix[i+3];
   }
 }
 /**
@@ -70,11 +67,17 @@ int main (int argc, char** argv)
   std::cout << "estimated transformation " << std::endl << transformation_est.matrix()  << std::endl;
   
   float mat[16] = {1};
+  for (int i = 0; i < 16; ++i) {
+    mat[i] = 1.0f;
+  }
   tranformMatrix(mat);
   std::cout << "estimated transformation " << std::endl << transformation_est.matrix()  << std::endl;
   float xyz[16] = {0.1f}, ptz[16];
-  transformPTZ(xyz, ptz, 16);
-  for (int i = 0; i < 16; ++i) {
+  for (int i = 0; i < 15; ++i) {
+    xyz[i] = 0.1f;
+  }
+  std::cout << "PTZ count: " << transformPTZ(xyz, ptz, 15); << std::endl;
+  for (int i = 0; i < 15; ++i) {
     std::cout << ptz[i] << " ";
     if (i % 4 == 0)
       std::cout << std::endl;
