@@ -16,7 +16,7 @@ enum methods {
   LM
 };
 
-static Eigen::Matrix4f transformation_est = {1}; 坐标变换矩阵
+static Eigen::Matrix4f transformation_est = {1}; // 坐标变换矩阵
 /**
  * @brief 从Java端传送过来的4 x 4 转换矩阵
  * 
@@ -27,10 +27,10 @@ void tranformMatrix(float matrix[], int size = 16) {
   for (int i = 0; i < size; i += 4) {
     int row = i / 4;
     int col = i % 4;
-    transaction_est(row, col) = matrix[i];
-    transaction_est(row, col) = matrix[i+1];
-    transaction_est(row, col) = matrix[i+2];
-    transaction_est(row, col) = matrix[i+3];
+    transformation_est(row, col) = matrix[i];
+    transformation_est(row, col) = matrix[i+1];
+    transformation_est(row, col) = matrix[i+2];
+    transformation_est(row, col) = matrix[i+3];
   }
 }
 /**
