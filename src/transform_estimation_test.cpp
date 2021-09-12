@@ -71,11 +71,12 @@ int main (int argc, char** argv)
   
   float mat[16] = {1};
   tranformMatrix(mat);
+  std::cout << "estimated transformation " << std::endl << transformation_est.matrix()  << std::endl;
   float xyz[16] = {0.1f}, ptz[16];
   transformPTZ(xyz, ptz, 16);
   for (int i = 0; i < 16; ++i) {
     std::cout << ptz[i] << " ";
-    if (i % 4)
+    if (i % 4 == 0)
       std::cout << std::endl;
   }
   return ( 0 );
