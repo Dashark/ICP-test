@@ -38,6 +38,8 @@ target_link_libraries (icp4_after_feature_registration ${PCL_LIBRARIES})
 
 add_executable (transform_estimation src/transform_estimation.cpp)
 target_link_libraries (transform_estimation ${PCL_LIBRARIES})
+add_executable (transform_estimation_test src/transform_estimation_test.cpp src/transform_xyz_ptz.cpp)
+target_link_libraries (transform_estimation_test ${PCL_LIBRARIES})
 
 add_executable (passthrough_filter src/passthrough_filter.cpp)
 target_link_libraries (passthrough_filter ${PCL_LIBRARIES})
