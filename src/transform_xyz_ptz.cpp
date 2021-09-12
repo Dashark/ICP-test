@@ -29,7 +29,7 @@ void printfEST()
  * @param matrix 按照一维数组存储的矩阵，行优先
  * @param size 数组大小，缺省16
  */
-void tranformMatrix(float matrix[], int size = 16) {
+void tranformMatrix(float matrix[], int size) {
   for (int i = 0; i < size; ++i) {
     int row = i / 4;
     int col = i % 4;
