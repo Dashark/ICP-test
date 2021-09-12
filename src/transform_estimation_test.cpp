@@ -16,12 +16,12 @@ enum methods {
   LM
 };
 
-static Eigen::Matrix4f transformation_est {
+static Eigen::Matrix4f transformation_est; /* {
           {1, 1, 1, 1},
           {1, 1, 1, 1},
           {1, 1, 1, 1},
           {1, 1, 1, 1},
-  }; // 坐标变换矩阵
+  };*/ // 坐标变换矩阵
 /**
  * @brief 从Java端传送过来的4 x 4 转换矩阵
  * 
