@@ -39,18 +39,12 @@ int main (int argc, char** argv)
       method = SVD;
   }
 
-  bool use_rand = false;
-  pcl::console::parse_argument (argc, argv, "-r", use_rand);
-  std::cout << "use random seed: " << (use_rand ? "true" : "false") << std::endl;
-  
-  boost::random::mt19937 gen; // alternative to rand()
-  if (use_rand)
-    gen.seed( std::time(0) ); // random seed with current time in second
-  else
-    gen.seed( 0 ); // fixed seed
+  std::string pcd_from, pcd_to;
+  pcl::console::parse_argument (argc, argv, "-f", pcd_from);
+  std::cout << "PCD from: " << pcd_from << std::endl;
+  pcl::console::parse_argument (argc, argv, "-t", pcd_to);
+  std::cout << "PCD to: " << pcd_to << std::endl;
 
-  boost::random::uniform_real_distribution<float> frand( 1.0, 3.2 ); // random gen between 1.0 and 3.2
-  
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_source ( new pcl::PointCloud<pcl::PointXYZ> () );
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_target ( new pcl::PointCloud<pcl::PointXYZ> () );
   
@@ -58,41 +52,16 @@ int main (int argc, char** argv)
   for (int i = 0; i < 1000; i++) {
     cloud_source->push_back (pcl::PointXYZ (frand(gen), frand(gen), frand(gen) ));
   }
-  
-
-  // create random transformation: R and T
-  Eigen::Affine3f transformation_true;
-  {
-    // random rotation matrix
-    Eigen::Vector3f axis;
-    axis.setRandom().normalize();
-    float angle = frand( gen );
-    Eigen::Affine3f R ( Eigen::AngleAxis<float> ( angle, axis ) );
-    
-    // random translation vector
-    Eigen::Translation3f T ( frand(gen), frand(gen), frand(gen) );
-
-    std::cout << "true R" << std::endl << R.matrix() << std::endl
-              << "true T" << std::endl << T .vector() << std::endl;
-
-    if ( use_scale )
-    {
-      float scale = frand( gen );
-      R.matrix().topLeftCorner(3,3) *= scale;
-      std::cout << "true sR" << std::endl << R.matrix() << std::endl
-                << "true scale " << scale << std::endl;
-    }
-    
-    // R and T
-    transformation_true = T * R ; // shoul be in this order if you mean (Rx + T).   If R*T, then R(x+t) !
-
+  if (pcl::io::loadPCDFile<pcl::PointXYZ>(pcd_from, *cloud_source) != -1) {
+    PCL_ERROR("Cloudn't read file %s \n", pcd_from);
+    return -1;
   }
-  std::cout << "true transformation" << std::endl << transformation_true.matrix() << std::endl;
-
+  if (pcl::io::loadPCDFile<pcl::PointXYZ>(pcd_to, *cloud_target) != -1) {
+    PCL_ERROR("Cloudn't read file %s \n", pcd_to);
+    return -1;
+  }
   
-  // create target point cloud
-  pcl::transformPointCloud ( *cloud_source, *cloud_target, transformation_true );
-    
+
   boost::shared_ptr< pcl::registration::TransformationEstimation< pcl::PointXYZ, pcl::PointXYZ > > estPtr;
   if ( use_scale )
     // estimator of R and T along with scale
