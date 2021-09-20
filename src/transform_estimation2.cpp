@@ -49,6 +49,7 @@ int main (int argc, char** argv)
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_target ( new pcl::PointCloud<pcl::PointXYZ> () );
   
   // create random source point cloud
+  /*
   for (int i = 0; i < 1000; i++) {
     cloud_source->push_back (pcl::PointXYZ (frand(gen), frand(gen), frand(gen) ));
   }
@@ -60,8 +61,20 @@ int main (int argc, char** argv)
     PCL_ERROR("Cloudn't read file %s \n", pcd_to);
     return -1;
   }
-  
+  */
 
+  cloud_source->push_back (pcl::PointXYZ (4.576,-0.099,-0.467 ));
+  cloud_source->push_back (pcl::PointXYZ (4.456,0.01,-0.347 ));
+  cloud_source->push_back (pcl::PointXYZ (4.456,0.01,-0.397 ));
+  cloud_source->push_back (pcl::PointXYZ (2.576,-0.099,-0.467 ));
+  cloud_source->push_back (pcl::PointXYZ (2.456,0,-0.347 ));
+  cloud_source->push_back (pcl::PointXYZ (2.456,0,-0.397 ));
+  cloud_target->push_back (pcl::PointXYZ (97,1806,43 ));
+  cloud_target->push_back (pcl::PointXYZ (136,1622,43 ));
+  cloud_target->push_back (pcl::PointXYZ (110,1713,43 ));
+  cloud_target->push_back (pcl::PointXYZ (139,1806,23 ));
+  cloud_target->push_back (pcl::PointXYZ (220,1622,23 ));
+  cloud_target->push_back (pcl::PointXYZ (220,1713,23 ));
   boost::shared_ptr< pcl::registration::TransformationEstimation< pcl::PointXYZ, pcl::PointXYZ > > estPtr;
   if ( use_scale )
     // estimator of R and T along with scale
