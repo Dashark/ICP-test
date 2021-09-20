@@ -16,7 +16,22 @@ enum methods {
   LM
 };
 
-
+void loadExcel(std::string excel, pcl::PointCloud<pcl::PointXYZ>::Ptr source, pcl::PointCloud<pcl::PointXYZ>::Ptr target)
+{
+  std::ifstream ifs(excel);
+  string line, value;
+  while (ifs.getline(line)) {
+    istringstream isstr(line);
+    float fval[6];
+    for (int j = 0; j < 6; ++j) {
+      std::getline(isstr, value, ',');
+      fval[j] = std::stof(value);
+      std::cout << fval[j] << std::endl;
+    }
+    source->push_back(pcl::PointXYZ (fval[0], fval[1], fval[2]))
+    target->push_back(pcl::PointXYZ (fval[3], fval[4], fval[5]))
+  }
+}
 int main (int argc, char** argv)
 {
   
@@ -39,15 +54,21 @@ int main (int argc, char** argv)
       method = SVD;
   }
 
+  std::string excel_file;
+  pcl::console::parse_argument (argc, argv, "-e", excel_file);
+  std::cout << "Excel File: " << excel_file << std::endl;
+  /*
   std::string pcd_from, pcd_to;
   pcl::console::parse_argument (argc, argv, "-f", pcd_from);
   std::cout << "PCD from: " << pcd_from << std::endl;
   pcl::console::parse_argument (argc, argv, "-t", pcd_to);
   std::cout << "PCD to: " << pcd_to << std::endl;
+  */
 
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_source ( new pcl::PointCloud<pcl::PointXYZ> () );
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_target ( new pcl::PointCloud<pcl::PointXYZ> () );
   
+  loadExcel(excel_file, source, target);
   // create random source point cloud
   /*
   for (int i = 0; i < 1000; i++) {
@@ -63,6 +84,7 @@ int main (int argc, char** argv)
   }
   */
 
+  /*
   cloud_source->push_back (pcl::PointXYZ (4.576,-0.099,-0.467 ));
   cloud_source->push_back (pcl::PointXYZ (4.456,0.01,-0.347 ));
   cloud_source->push_back (pcl::PointXYZ (4.456,0.01,-0.397 ));
@@ -75,6 +97,7 @@ int main (int argc, char** argv)
   cloud_target->push_back (pcl::PointXYZ (139,1806,23 ));
   cloud_target->push_back (pcl::PointXYZ (220,1622,23 ));
   cloud_target->push_back (pcl::PointXYZ (220,1713,23 ));
+  */
   boost::shared_ptr< pcl::registration::TransformationEstimation< pcl::PointXYZ, pcl::PointXYZ > > estPtr;
   if ( use_scale )
     // estimator of R and T along with scale
