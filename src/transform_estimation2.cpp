@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <ctime>
 #include <pcl/point_types.h>
 #include <pcl/common/transforms.h>
