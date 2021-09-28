@@ -21,7 +21,7 @@ void loadExcel(std::string excel, pcl::PointCloud<pcl::PointXYZ>::Ptr source, pc
 {
   std::ifstream ifs(excel.c_str());
   std::string line, value;
-  while (ifs.getline(line)) {
+  while (getline(ifs, line)) {
     std::istringstream isstr(line);
     float fval[6];
     for (int j = 0; j < 6; ++j) {
