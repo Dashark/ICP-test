@@ -18,10 +18,10 @@ enum methods {
 
 void loadExcel(std::string excel, pcl::PointCloud<pcl::PointXYZ>::Ptr source, pcl::PointCloud<pcl::PointXYZ>::Ptr target)
 {
-  std::ifstream ifs(excel);
-  string line, value;
+  std::ifstream ifs(excel.c_str());
+  std::string line, value;
   while (ifs.getline(line)) {
-    istringstream isstr(line);
+    std::istringstream isstr(line);
     float fval[6];
     for (int j = 0; j < 6; ++j) {
       std::getline(isstr, value, ',');
