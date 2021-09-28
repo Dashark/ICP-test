@@ -28,8 +28,8 @@ void loadExcel(std::string excel, pcl::PointCloud<pcl::PointXYZ>::Ptr source, pc
       fval[j] = std::stof(value);
       std::cout << fval[j] << std::endl;
     }
-    source->push_back(pcl::PointXYZ (fval[0], fval[1], fval[2]))
-    target->push_back(pcl::PointXYZ (fval[3], fval[4], fval[5]))
+    source->push_back(pcl::PointXYZ (fval[0], fval[1], fval[2]));
+    target->push_back(pcl::PointXYZ (fval[3], fval[4], fval[5]));
   }
 }
 int main (int argc, char** argv)
@@ -68,7 +68,7 @@ int main (int argc, char** argv)
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_source ( new pcl::PointCloud<pcl::PointXYZ> () );
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_target ( new pcl::PointCloud<pcl::PointXYZ> () );
   
-  loadExcel(excel_file, source, target);
+  loadExcel(excel_file, cloud_source, cloud_target);
   // create random source point cloud
   /*
   for (int i = 0; i < 1000; i++) {
