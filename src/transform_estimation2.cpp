@@ -129,6 +129,9 @@ int main (int argc, char** argv)
   }
   std::cout << "estimated transformation " << std::endl << transformation_est.matrix()  << std::endl;
   
+  pcl::PointCloud<pcl::PointXYZ>::Ptr ptz ( new pcl::PointCloud<pcl::PointXYZ> () );
+  pcl::transformPointCloud ( *cloud_source, *ptz, transformation_est);
+  std::cout << "estimated results " << std::endl << *ptz;
   return ( 0 );
 }
 
