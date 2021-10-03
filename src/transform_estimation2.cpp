@@ -30,6 +30,11 @@ void loadExcel(std::string excel, pcl::PointCloud<pcl::PointXYZ>::Ptr source, pc
       std::cout << fval[j] << std::endl;
     }
     source->push_back(pcl::PointXYZ (fval[0], fval[1], fval[2]));
+    // PTZ 的转换
+    float p = fval[3] * PI / 1800, t = fval[4] * PI / 1800, z = fval[5];
+    fval[3] = z * cos(t) * cos(p);
+    fval[4] = z * cos(t) * sin(p);
+    fval[5] = z * sin(t);
     target->push_back(pcl::PointXYZ (fval[3], fval[4], fval[5]));
   }
 }
@@ -132,6 +137,8 @@ int main (int argc, char** argv)
   pcl::PointCloud<pcl::PointXYZ>::Ptr ptz ( new pcl::PointCloud<pcl::PointXYZ> () );
   pcl::transformPointCloud ( *cloud_source, *ptz, transformation_est);
   std::cout << "estimated results " << std::endl << *ptz;
+  std::cout << ptz->points[0] << std::endl;
+  std::cout << ptz->points[1] << std::endl;
   return ( 0 );
 }
 
