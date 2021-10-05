@@ -64,3 +64,31 @@ int transformPTZ(float xyz[], float ptz[], int size)
   return i;
 }
 
+int transformPTZ(float xyz[], int size, float &p, float &t, float &z)
+{
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_source ( new pcl::PointCloud<pcl::PointXYZ> () );
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_target ( new pcl::PointCloud<pcl::PointXYZ> () );
+  for (int i = 0; i < size; i += 3) {
+    cloud_source->push_back(pcl::PointXYZ (xyz[i], xyz[i+1], xyz[i+2]));
+  }
+  // create target point cloud
+  pcl::transformPointCloud ( *cloud_source, *cloud_target, transformation_est);
+  
+  p = 0.0f, t = 0.0f, z = 0.0f;
+  for (const auto& point : *cloud_target) {
+    float x = point.x, y = point.y, z = point.z;
+    float r = sqrt(x*x + y*y + z*z);
+    float theta = acosf(z/r) * 1800 / M_PI;
+    float fi = atan2f(y, x) * 1800 / M_PI;
+    z += r;
+    p += fi;
+    t += theta;
+  }
+  p /= cloud_target->points.size();
+  t /= cloud_target->points.size();
+  z /= cloud_target->points.size();
+  p = (int)(fi + 3600) % 3600;
+  t = t > 900 ? t - 900 : 0.0f;
+  return 1;
+}
+

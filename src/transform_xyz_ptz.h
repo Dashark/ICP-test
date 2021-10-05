@@ -18,6 +18,17 @@ void tranformMatrix(float matrix[], int size = 16);
  */
 int transformPTZ(float xyz[], float ptz[], int size);
 
+/**
+ * @brief 将XYZ值转换为PTZ值
+ * 
+ * @param xyz 从雷达中同一目标的坐标值
+ * @param size xyz数组的大小
+ * @param p 球机的P值
+ * @param t 球机的T值
+ * @param z 球机的Z值
+ * @return int 固定为1
+ */
+int transformPTZ(float xyz[], int size, float &p, float &t, float &z);
 void printfEST();
 
 #endif
