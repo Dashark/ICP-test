@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <cmath>
 #include <pcl/point_types.h>
 #include <pcl/common/transforms.h>
 #include <pcl/registration/transformation_estimation_svd.h>
@@ -31,7 +32,7 @@ void loadExcel(std::string excel, pcl::PointCloud<pcl::PointXYZ>::Ptr source, pc
     }
     source->push_back(pcl::PointXYZ (fval[0], fval[1], fval[2]));
     // PTZ 的转换
-    float p = fval[3] * PI / 1800, t = fval[4] * PI / 1800, z = fval[5];
+    float p = fval[3] * M_PI / 1800, t = fval[4] * M_PI / 1800, z = fval[5];
     fval[3] = z * cos(t) * cos(p);
     fval[4] = z * cos(t) * sin(p);
     fval[5] = z * sin(t);
