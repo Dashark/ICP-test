@@ -87,7 +87,7 @@ int transformPTZ(float xyz[], int size, float &p, float &t, float &z)
   p /= cloud_target->points.size();
   t /= cloud_target->points.size();
   z /= cloud_target->points.size();
-  p = (int)(fi + 3600) % 3600;
+  p = (int)(p + 3600) % 3600;
   t = t > 900 ? t - 900 : 0.0f;
   return 1;
 }

@@ -17,7 +17,7 @@ int main (int argc, char** argv)
   }*/
   tranformMatrix(mat);   // 初始化转换矩阵
   printfEST();  
-  float xyz[16] = {0.1f}, ptz[16];
+  float xyz[16] = {0.1f}, ptz[16], p, t, z;
   for (int i = 0; i < 15; ++i) {  // 测试用的雷达坐标
     xyz[i] = 0.1f;
   }
@@ -33,6 +33,14 @@ int main (int argc, char** argv)
     if ((i+1) % 3 == 0)
       std::cout << std::endl;
   }
+  xyz[0] = 2.85f;
+  xyz[1] = -6.6f;
+  xyz[2] = 0.4f;
+  xyz[3] = 2.5f;
+  xyz[4] = -6.75f;
+  xyz[5] = 0.4f;
+  std::cout << "PTZ count: " << transformPTZ(xyz, 6, p, t, z) << std::endl;  // 坐标转换
+  std::cout << p << ", " << t << ", " << z << std::endl;
   return ( 0 );
 }
 
