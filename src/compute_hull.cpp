@@ -41,6 +41,7 @@
 #include <pcl/io/vtk_io.h>
 #include <pcl/surface/concave_hull.h>
 #include <pcl/surface/convex_hull.h>
+#include <pcl/sample_consensus/sac_model_plane.h>
 
 #include <pcl/console/print.h>
 #include <pcl/console/parse.h>
