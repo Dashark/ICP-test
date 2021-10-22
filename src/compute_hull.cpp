@@ -159,6 +159,7 @@ main (int argc, char** argv)
   float c = static_cast<float> (atof (argv[5]));
   float d = static_cast<float> (atof (argv[6]));
 
+  PointCloud<PointXYZ>::Ptr cloud_out (new PointCloud<PointXYZ> ());
   project(cloud_in, cloud_out, a, b, c, d);
   return (0);
 }
