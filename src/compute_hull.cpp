@@ -105,10 +105,10 @@ project (const PointCloud<PointXYZ>::Ptr &input, PointCloud<PointXYZ>::Ptr &outp
   output->sensor_origin_ = input->sensor_origin_;
   output->sensor_orientation_ = input->sensor_orientation_;
 
-  for (const auto& point: *xyz)
+  for (const auto& point: *input)
   {
     pcl::PointXYZ projection;
-    pcl::projectPoint<pcl::PointXYZ> (point, coeffs, projection);
+    pcl::projectPoint <pcl::PointXYZ> (point, coeffs, projection);
     output->points.push_back(projection);
   }
 
