@@ -44,6 +44,7 @@
 
 #include <pcl/console/print.h>
 #include <pcl/console/parse.h>
+#include <pcl/console/time.h>
 
 using namespace pcl;
 using namespace pcl::io;
@@ -98,16 +99,16 @@ project (const PointCloud<PointXYZ>::Ptr &input, PointCloud<PointXYZ>::Ptr &outp
   print_highlight (stderr, "Projecting ");
 
   //PointCloud<PointXYZ>::Ptr projected_cloud_pcl (new PointCloud<PointXYZ>);
-  output->width = xyz->width;
-  output->height = xyz->height;
-  output->is_dense = xyz->is_dense;
-  output->sensor_origin_ = xyz->sensor_origin_;
-  output->sensor_orientation_ = xyz->sensor_orientation_;
+  output->width = input->width;
+  output->height = input->height;
+  output->is_dense = input->is_dense;
+  output->sensor_origin_ = input->sensor_origin_;
+  output->sensor_orientation_ = input->sensor_orientation_;
 
   for (const auto& point: *xyz)
   {
     pcl::PointXYZ projection;
-    pcl::projectPoint<PointXYZ> (point, coeffs, projection);
+    pcl::projectPoint<pcl::PointXYZ> (point, coeffs, projection);
     output->points.push_back(projection);
   }
 
